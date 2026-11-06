@@ -15,9 +15,9 @@ def health():
     return{"status": "ok"}
 
 
-@app.post("/api/students", response_model= StudentRead, status_code = status.HTTP_201_CREATED)
+@app.post("/requests/students", response_model= StudentRead, status_code = status.HTTP_201_CREATED)
 def add_student(new_student:StudentCreate, db:Session = Depends(get_db)):
-    db_student = StudentDB(**new_student_model_dump());
+    db_student = StudentDB(**new_student.model_dump());
     db.add(db_student)
     try: 
         db.commit()
@@ -28,8 +28,12 @@ def add_student(new_student:StudentCreate, db:Session = Depends(get_db)):
     return db_student
 
 
-@app.get("/api/students", response_model = list[StudentRead])
+@app.get("/requests/students", response_model = list[StudentRead],)
 def get_students(db:Session = Depends(get_db)):
-    statement = select (StudentDB).order_by(StudentDB.id)
-    return
-db.execute(statement).scalars().all()
+    statement = select(StudentDB).order_by(StudentDB.id)
+    return db.execute(statement).scalars().all()
+
+@app.get("/requests/{priority}", status_code = status.HTTP_200_CONTENT)
+def get_priority(priority: int ,db:Session = Depends(get_db)):
+    if priority is None:
+        raise HTTPException(status_code = status.HTTP_422_NOT_FOUND, detail ="None match")

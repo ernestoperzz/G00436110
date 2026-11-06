@@ -5,10 +5,10 @@ class Base(DeclarativeBase):
     pass
 
 class StudentDB(Base):
-    __tableName__= "students"
-    id: Mapped[int] = mapped_column(Integer, unique=True)
-    equipment_id: Mapped[int] = mapped_column(Integer, index=True)
+    __tablename__= "students"
+    id: Mapped[int] = mapped_column(primary_key = True, unique=True)
+    equipment_id: Mapped[int] = mapped_column( index=True)
     student_id: Mapped[str] = mapped_column(String(8))
     description: Mapped[str] = mapped_column(String(100))
-    priority: Mapped[int] = mapped_column(Integer)
-    status: Mapped[str] = mapped_column()
+    priority: Mapped[int] = mapped_column(nullable = False)
+    status: Mapped[str] = mapped_column(nullable= False)
