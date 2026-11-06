@@ -3,3 +3,12 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 class Base(DeclarativeBase):
     pass
+
+class StudentDB(Base):
+    __tablename__= "students"
+    id: Mapped[int] = mapped_column(primary_key = True, unique=True)
+    equipment_id: Mapped[int] = mapped_column( index=True)
+    student_id: Mapped[str] = mapped_column(String(8))
+    description: Mapped[str] = mapped_column(String(100))
+    priority: Mapped[int] = mapped_column(nullable = False)
+    status: Mapped[str] = mapped_column(nullable= False)
